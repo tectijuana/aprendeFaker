@@ -7,6 +7,7 @@ Uso:
 Subcomandos (cada uno acepta -h para ver sus parámetros):
     asm       Lenguajes de Interfaz P01: arreglo para ordenar en ARM64 (datos.s/.bin/esperado.bin)
     stdin     Lenguajes de Interfaz P02: montos por stdin con líneas inválidas (kiosco)
+    disco     Lenguajes de Interfaz P03: padrón de nómina en registros binarios de 32 bytes
     uart      Lenguajes de Interfaz P04: tramas NMEA/GPS con checksum (10% corruptas)
     influx    Sistemas Programables P01: telemetría line protocol para InfluxDB
     mssql     Sistemas Programables P02: T-SQL + CSV para SQL Server
@@ -32,6 +33,7 @@ RAIZ = Path(__file__).resolve().parent
 SUBCOMANDOS = {
     "asm": "lenguajes_interfaz/practica01_ordenamiento_arm64/generar_datos.py",
     "stdin": "lenguajes_interfaz/practica02_stdin/generar_entradas.py",
+    "disco": "lenguajes_interfaz/practica03_disco/generar_padron.py",
     "uart": "lenguajes_interfaz/practica04_uart_nmea/generar_tramas.py",
     "influx": "sistemas_programables/practica01_sensores_influxdb/generar_telemetria.py",
     "mssql": "sistemas_programables/practica02_mssql/generar_mssql.py",
