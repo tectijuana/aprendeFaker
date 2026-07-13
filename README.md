@@ -15,7 +15,7 @@ se usa como herramienta CLI y como colección de generadores ejecutables.
 
 ```bash
 sudo apt update && sudo apt install -y python3-venv
-git clone <URL-de-este-repo> && cd aprendeFaker
+git clone https://github.com/tectijuana/aprendeFaker.git && cd aprendeFaker
 python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
 ```
