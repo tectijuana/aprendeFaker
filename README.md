@@ -4,6 +4,9 @@
 [![Licencia: MIT](https://img.shields.io/badge/licencia-MIT-blue.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue)](requirements.txt)
 [![Faker](https://img.shields.io/badge/faker-40.x-green)](https://faker.readthedocs.io/)
+[![Catálogo](https://img.shields.io/badge/catálogo-tectijuana.github.io%2FaprendeFaker-0b6e4f)](https://tectijuana.github.io/aprendeFaker/)
+
+**📖 Catálogo de prácticas en línea: https://tectijuana.github.io/aprendeFaker/**
 
 > **EN** — Reproducible synthetic-data generators (fixed seed, byte-exact
 > verification) for teaching ARM64 assembly and the IoT stack (MQTT, InfluxDB,
