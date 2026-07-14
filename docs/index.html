@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>aprendeFaker — Catálogo de prácticas</title>
+<meta name="description" content="Generadores de datos sintéticos reproducibles para enseñar ensamblador ARM64 y el stack IoT. TecNM Tijuana.">
+<style>
+  :root {
+    --fondo: #ffffff; --tinta: #1a1f24; --tenue: #5a6570; --linea: #e3e7ea;
+    --acento: #0b6e4f; --acento2: #0b4f6e; --tarjeta: #f6f8f9; --codigo: #eef1f3;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --fondo: #14181c; --tinta: #e8ecef; --tenue: #9aa5ad; --linea: #2a3138;
+      --acento: #4fc79b; --acento2: #6db7d8; --tarjeta: #1c2228; --codigo: #232a31;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--fondo); color: var(--tinta);
+    font: 16px/1.6 -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  }
+  header {
+    border-bottom: 1px solid var(--linea); padding: 3rem 1.5rem 2rem;
+    max-width: 60rem; margin: 0 auto;
+  }
+  h1 { margin: 0 0 .3rem; font-size: 2.2rem; letter-spacing: -.02em; }
+  h1 span { color: var(--acento); }
+  .lema { color: var(--tenue); font-size: 1.1rem; margin: 0 0 1.2rem; }
+  .en { border-left: 3px solid var(--acento2); padding: .4rem .9rem; color: var(--tenue);
+        font-size: .92rem; background: var(--tarjeta); border-radius: 0 6px 6px 0; }
+  main { max-width: 60rem; margin: 0 auto; padding: 1.5rem; }
+  h2 { font-size: 1.35rem; margin: 2.2rem 0 .8rem; letter-spacing: -.01em; }
+  h2 small { color: var(--tenue); font-weight: normal; font-size: .8em; }
+  code, pre {
+    font: .88em ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+    background: var(--codigo); border-radius: 5px;
+  }
+  code { padding: .12em .4em; }
+  pre { padding: .9rem 1.1rem; overflow-x: auto; }
+  pre code { background: none; padding: 0; }
+  .rejilla { display: grid; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); gap: .9rem; }
+  .tarjeta {
+    background: var(--tarjeta); border: 1px solid var(--linea); border-radius: 10px;
+    padding: 1rem 1.1rem; display: flex; flex-direction: column; gap: .35rem;
+  }
+  .tarjeta .clave { display: flex; justify-content: space-between; align-items: baseline; }
+  .tarjeta .num { color: var(--tenue); font-size: .8rem; letter-spacing: .05em; }
+  .tarjeta h3 { margin: 0; font-size: 1.02rem; }
+  .tarjeta p { margin: 0; color: var(--tenue); font-size: .9rem; flex: 1; }
+  .tarjeta a { color: var(--acento); text-decoration: none; font-size: .88rem; }
+  .tarjeta a:hover { text-decoration: underline; }
+  .cmd { color: var(--acento2); }
+  .insignias { display: flex; gap: .5rem; flex-wrap: wrap; margin: 1rem 0 0; }
+  .insignias img { height: 20px; }
+  a { color: var(--acento); }
+  footer {
+    max-width: 60rem; margin: 2rem auto 0; padding: 1.5rem;
+    border-top: 1px solid var(--linea); color: var(--tenue); font-size: .9rem;
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>aprende<span>Faker</span></h1>
+  <p class="lema">Datos sintéticos reproducibles para enseñar ensamblador ARM64 y el stack IoT — sin hardware, autoevaluables byte a byte.</p>
+  <p class="en"><strong>EN</strong> — Reproducible synthetic-data generators for teaching ARM64 assembly and the IoT stack (MQTT, InfluxDB, Grafana, MongoDB, SQL Server, ML). One CLI, self-grading labs, no hardware required. Docs in Spanish.</p>
+  <div class="insignias">
+    <a href="https://github.com/tectijuana/aprendeFaker/actions/workflows/ci.yml"><img src="https://github.com/tectijuana/aprendeFaker/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+    <a href="https://github.com/tectijuana/aprendeFaker/blob/main/LICENSE"><img src="https://img.shields.io/badge/licencia-MIT-blue.svg" alt="MIT"></a>
+    <a href="https://github.com/tectijuana/aprendeFaker"><img src="https://img.shields.io/badge/GitHub-tectijuana%2FaprendeFaker-181717?logo=github" alt="GitHub"></a>
+  </div>
+</header>
+
+<main>
+  <h2>Inicio rápido <small>(AWS Academy — Ubuntu Server)</small></h2>
+  <pre><code>git clone https://github.com/tectijuana/aprendeFaker.git && cd aprendeFaker
+python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+.venv/bin/python aprendefaker.py            # lista los subcomandos
+.venv/bin/python aprendefaker.py influx --seed 2026</code></pre>
+  <p><strong>Regla de oro:</strong> todo se genera con semilla. Misma semilla → mismos bytes → tu salida se compara contra la esperada con <code>cmp</code>. Si no coincide, el error está en tu programa, no en los datos.</p>
+
+  <h2>Lenguajes de Interfaz <small>· ensamblador ARM64/AArch64</small></h2>
+  <div class="rejilla">
+    <div class="tarjeta"><div class="clave"><span class="num">LI-01</span><code class="cmd">asm</code></div>
+      <h3>Ordenamiento en memoria</h3>
+      <p>Enteros de 32 bits con signo en <code>.data</code>; ordénalos y emítelos con <code>write</code>. El error clásico: <code>b.lo</code> vs <code>b.lt</code>.</p>
+      <a href="https://github.com/tectijuana/aprendeFaker/tree/main/lenguajes_interfaz/practica01_ordenamiento_arm64">Ver práctica →</a></div>
+    <div class="tarjeta"><div class="clave"><span class="num">LI-02</span><code class="cmd">stdin</code></div>
+      <h3>Caja de kiosco</h3>
+      <p>Montos tecleados con basura real: vacías, signos, letras, overflow. Valida en 32 bits, acumula en 64.</p>
+      <a href="https://github.com/tectijuana/aprendeFaker/tree/main/lenguajes_interfaz/practica02_stdin">Ver práctica →</a></div>
+    <div class="tarjeta"><div class="clave"><span class="num">LI-03</span><code class="cmd">disco</code></div>
+      <h3>Nómina legada en disco</h3>
+      <p>Registros binarios de 32 bytes estilo COBOL. Trampa: el salario máximo es de un empleado dado de baja.</p>
+      <a href="https://github.com/tectijuana/aprendeFaker/tree/main/lenguajes_interfaz/practica03_disco">Ver práctica →</a></div>
+    <div class="tarjeta"><div class="clave"><span class="num">LI-04</span><code class="cmd">uart</code></div>
+      <h3>Receptor GPS por UART</h3>
+      <p>Tramas NMEA con checksum XOR; 10 % llegan con un bit dañado. UART virtual con <code>socat</code>.</p>
+      <a href="https://github.com/tectijuana/aprendeFaker/tree/main/lenguajes_interfaz/practica04_uart_nmea">Ver práctica →</a></div>
+    <div class="tarjeta"><div class="clave"><span class="num">LI-05</span><code class="cmd">xxd</code></div>
+      <h3>Mini-xxd forense</h3>
+      <p>Volcado hex de un binario decomisado con 3 evidencias ASCII embebidas. La última línea corta rompe a los descuidados.</p>
+      <a href="https://github.com/tectijuana/aprendeFaker/tree/main/lenguajes_interfaz/practica05_minixxd">Ver práctica →</a></div>
+    <div class="tarjeta"><div class="clave"><span class="num">LI-06</span><code class="cmd">busqueda</code></div>
+      <h3>Búsqueda binaria de seriales</h3>
+      <p>Catálogo ordenado de 200 seriales u64; consultas frontera incluidas. 8 comparaciones contra 200.</p>
+      <a href="https://github.com/tectijuana/aprendeFaker/tree/main/lenguajes_interfaz/practica06_busqueda">Ver práctica →</a></div>
+  </div>
+
+  <h2>Sistemas Programables <small>· IoT con Raspberry Pi Pico W / Wokwi</small></h2>
+  <div class="rejilla">
+    <div class="tarjeta"><div class="clave"><span class="num">SP-01</span><code class="cmd">influx</code></div>
+      <h3>Telemetría → InfluxDB</h3>
+      <p>24 h de sensores en line protocol: tags vs campos, nanosegundos, dashboards de Grafana comparables entre alumnos.</p>
+      <a href="https://github.com/tectijuana/aprendeFaker/tree/main/sistemas_programables/practica01_sensores_influxdb">Ver práctica →</a></div>
+    <div class="tarjeta"><div class="clave"><span class="num">SP-02</span><code class="cmd">mssql</code></div>
+      <h3>SQL Server: dos vías de ingesta</h3>
+      <p>T-SQL con <code>sqlcmd</code> y CSV con <code>BULK INSERT</code>. Acentos → NVARCHAR, comillas → escape, UTF-8 → CODEPAGE.</p>
+      <a href="https://github.com/tectijuana/aprendeFaker/tree/main/sistemas_programables/practica02_mssql">Ver práctica →</a></div>
+    <div class="tarjeta"><div class="clave"><span class="num">SP-03</span><code class="cmd">mqtt</code></div>
+      <h3>Pub/Sub con Mosquitto</h3>
+      <p>Jerarquía de topics, comodines <code>+</code>/<code>#</code> y mensajes retained, con publicador de cadencia real.</p>
+      <a href="https://github.com/tectijuana/aprendeFaker/tree/main/sistemas_programables/practica03_mqtt">Ver práctica →</a></div>
+    <div class="tarjeta"><div class="clave"><span class="num">SP-04</span><code class="cmd">dataset</code></div>
+      <h3>ML: sensores defectuosos</h3>
+      <p>Deriva, atascado y ruidoso con etiqueta de verdad. Split 80/20 por sensor: la lección de la fuga de datos.</p>
+      <a href="https://github.com/tectijuana/aprendeFaker/tree/main/sistemas_programables/practica04_aiml">Ver práctica →</a></div>
+    <div class="tarjeta"><div class="clave"><span class="num">SP-05</span><code class="cmd">mongo</code></div>
+      <h3>MongoDB: embed vs reference</h3>
+      <p>Fichas ricas anidadas contra eventos planos referenciados — la decisión central de NoSQL, con <code>$lookup</code>.</p>
+      <a href="https://github.com/tectijuana/aprendeFaker/tree/main/sistemas_programables/practica05_mongodb">Ver práctica →</a></div>
+    <div class="tarjeta"><div class="clave"><span class="num">SP-06</span><code class="cmd">rest</code></div>
+      <h3>API REST en Flask</h3>
+      <p>Tú escribes la API; el tráfico de producción la califica caso por caso: 201, 400 o 422.</p>
+      <a href="https://github.com/tectijuana/aprendeFaker/tree/main/sistemas_programables/practica06_rest">Ver práctica →</a></div>
+    <div class="tarjeta"><div class="clave"><span class="num">SP-07</span><code class="cmd">alertas</code></div>
+      <h3>Alertas de Grafana (NOC)</h3>
+      <p>48 h con la verdad conocida: ola de calor, nodo caído y un pico falso que pone a prueba tu <code>for:</code>.</p>
+      <a href="https://github.com/tectijuana/aprendeFaker/tree/main/sistemas_programables/practica07_alertas_grafana">Ver práctica →</a></div>
+    <div class="tarjeta"><div class="clave"><span class="num">SP-08</span><code class="cmd">gps</code></div>
+      <h3>GPS y geocercas</h3>
+      <p>Transporte universitario Otay→campus: <code>2dsphere</code>, <code>$geoWithin</code>, un desvío y una pérdida de señal.</p>
+      <a href="https://github.com/tectijuana/aprendeFaker/tree/main/sistemas_programables/practica08_gps_geocercas">Ver práctica →</a></div>
+    <div class="tarjeta"><div class="clave"><span class="num">SP-09</span><span class="num">integrador</span></div>
+      <h3>Proyecto final: el pipeline completo</h3>
+      <p>MQTT → puente Python → InfluxDB → Grafana + MongoDB + detección de fallas. Tú diseñas; la rúbrica está publicada.</p>
+      <a href="https://github.com/tectijuana/aprendeFaker/tree/main/sistemas_programables/practica09_integrador">Ver práctica →</a></div>
+  </div>
+
+  <h2>Antes de empezar</h2>
+  <p>Trabaja el <a href="https://github.com/tectijuana/aprendeFaker/tree/main/modulo00_intro_faker">Módulo 00 — Domina Faker</a>:
+  5 lecciones y 6 ejercicios sobre semillas, locales y providers personalizados. Todo lo demás lo da por sabido.</p>
+</main>
+
+<footer>
+  <p>Tecnológico Nacional de México, Campus Tijuana · Licencia MIT ·
+  <a href="https://github.com/tectijuana/aprendeFaker">Código fuente</a> ·
+  <a href="https://github.com/tectijuana/aprendeFaker/blob/main/CONTRIBUTING.md">Contribuir</a></p>
+</footer>
+</body>
+</html>
