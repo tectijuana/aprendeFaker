@@ -1,5 +1,16 @@
 # aprendeFaker
 
+[![CI](https://github.com/tectijuana/aprendeFaker/actions/workflows/ci.yml/badge.svg)](https://github.com/tectijuana/aprendeFaker/actions/workflows/ci.yml)
+[![Licencia: MIT](https://img.shields.io/badge/licencia-MIT-blue.svg)](LICENSE)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue)](requirements.txt)
+[![Faker](https://img.shields.io/badge/faker-40.x-green)](https://faker.readthedocs.io/)
+
+> **EN** — Reproducible synthetic-data generators (fixed seed, byte-exact
+> verification) for teaching ARM64 assembly and the IoT stack (MQTT, InfluxDB,
+> Grafana, MongoDB, SQL Server, ML). One CLI, self-grading labs, no hardware
+> required. Docs are in Spanish (LATAM); contributions welcome — see
+> [CONTRIBUTING.md](CONTRIBUTING.md).
+
 Herramienta de línea de comandos basada en **Faker** para generar
 **mockup data** realista en las prácticas de:
 
@@ -66,3 +77,29 @@ antepón `PYTHONPATH=.` para que Python encuentre `providers/`.
 **Todo se genera con semilla (`--seed`).** Misma semilla → mismos datos → tu salida se
 puede comparar byte a byte contra la salida esperada. Si tu resultado no coincide con
 el esperado de la práctica, el error está en tu programa, no en los datos.
+
+## Catálogo de prácticas
+
+| Subcomando | Práctica | Escenario del mundo real |
+|---|---|---|
+| `asm` | LI-01 Ordenamiento | Ordenar enteros con signo en memoria y emitirlos por `write` |
+| `stdin` | LI-02 Caja de kiosco | Validar montos tecleados: basura real de teclado, suma de 64 bits |
+| `disco` | LI-03 Nómina legada | Registros binarios de 32 bytes estilo COBOL, auditoría por offsets |
+| `uart` | LI-04 Receptor GPS | Tramas NMEA por UART, checksum XOR, descartar corruptas |
+| `xxd` | LI-05 Forense | Mini-xxd: volcado hex con evidencia ASCII embebida |
+| `busqueda` | LI-06 Almacén | Búsqueda binaria de seriales u64 en catálogo ordenado |
+| `influx` | SP-01 Telemetría | Sensores → line protocol → InfluxDB → Grafana |
+| `mssql` | SP-02 Inventario | T-SQL + BULK INSERT con acentos, comillas y UTF-8 |
+| `mqtt` | SP-03 Pub/Sub | Topics, retained y comodines con Mosquitto |
+| `dataset` | SP-04 ML | Detección de sensores defectuosos, split sin fuga de datos |
+| `mongo` | SP-05 NoSQL | Embed vs reference con una flota IoT |
+| `rest` | SP-06 API REST | Flask calificada caso por caso: 201/400/422 |
+| `alertas` | SP-07 NOC | Alertas Grafana: ola de calor, nodo caído y pico falso |
+| `gps` | SP-08 Geocercas | Transporte universitario: MongoDB 2dsphere y GeoJSON |
+| — | SP-09 Integrador | Proyecto final: el pipeline completo, sin hardware |
+
+## Licencia y cita
+
+Código y material bajo [licencia MIT](LICENSE). Si lo usas en tu curso o
+publicación, cítalo con los metadatos de [CITATION.cff](CITATION.cff) (GitHub
+genera la cita con el botón "Cite this repository").

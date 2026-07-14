@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  generadores:
+    name: Generadores (reproducibilidad)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+      - name: Ejecutar todos los subcomandos
+        run: |
+          for c in asm stdin disco uart xxd busqueda influx mssql mqtt dataset mongo rest alertas gps; do
+            echo "== $c =="
+            python aprendefaker.py "$c"
+          done
+      - name: Verificar reproducibilidad (misma semilla, mismos bytes)
+        run: |
+          find . -path ./.git -prune -o -name salida -type d -print | while read -r d; do
+            (cd "$d" && sha256sum * 2>/dev/null | grep -v publicar.sh | grep -v enviar.sh)
+          done | sort > /tmp/pasada1.txt
+          for c in asm stdin disco uart xxd busqueda influx mssql mqtt dataset mongo rest alertas gps; do
+            python aprendefaker.py "$c" > /dev/null
+          done
+          find . -path ./.git -prune -o -name salida -type d -print | while read -r d; do
+            (cd "$d" && sha256sum * 2>/dev/null | grep -v publicar.sh | grep -v enviar.sh)
+          done | sort > /tmp/pasada2.txt
+          diff /tmp/pasada1.txt /tmp/pasada2.txt && echo "Reproducible ✔"
+      - name: Sintaxis de los scripts generados
+        run: |
+          bash -n sistemas_programables/practica03_mqtt/salida/publicar.sh
+          bash -n sistemas_programables/practica06_rest/salida/enviar.sh
+
+  ensamblador:
+    name: Ensamblado ARM64 (plantillas y datos.s)
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+      - name: Generar datos y ensamblar todas las plantillas
+        run: |
+          for c in asm stdin disco uart xxd busqueda; do python aprendefaker.py "$c"; done
+          for d in lenguajes_interfaz/practica*/; do
+            echo "== $d =="
+            (cd "$d" && as -o plantilla.o plantilla.s)
+            if [ -f "$d/salida/datos.s" ]; then (cd "$d" && as -o datos.o salida/datos.s); fi
+          done

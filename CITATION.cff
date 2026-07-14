@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "Si usas este material en tu curso o investigación, cítalo así:"
+title: "aprendeFaker: generadores de datos sintéticos reproducibles para la enseñanza de ensamblador ARM64 y sistemas IoT"
+type: software
+authors:
+  - family-names: "Solís Cortés"
+    given-names: "René"
+    affiliation: "Tecnológico Nacional de México, Campus Tijuana"
+repository-code: "https://github.com/tectijuana/aprendeFaker"
+license: MIT
+date-released: 2026-07-12
+keywords:
+  - educación
+  - faker
+  - datos-sintéticos
+  - arm64
+  - ensamblador
+  - iot
+  - reproducibilidad
+abstract: >-
+  Colección de generadores de datos sintéticos reproducibles (semilla fija,
+  verificación byte a byte) para prácticas académicas de Lenguajes de Interfaz
+  (ensamblador ARM64/AArch64) y Sistemas Programables (MQTT, InfluxDB, Grafana,
+  MongoDB, SQL Server, aprendizaje automático), con un CLI unificado y
+  autoevaluación por comparación contra salidas esperadas.
