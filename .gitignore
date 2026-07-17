@@ -1,4 +1,6 @@
 .venv/
+CLAUDE.md
+.claude/
 __pycache__/
 *.pyc
 salida/
